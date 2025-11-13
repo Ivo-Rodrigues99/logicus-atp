@@ -4,7 +4,6 @@
 mkdir bibliotecas
 mkdir build
 
-make clean
 wget https://github.com/raysan5/raygui/archive/refs/tags/4.0.zip -P ./bibliotecas 
 wget https://github.com/raysan5/raylib/releases/download/5.5/raylib-5.5_linux_amd64.tar.gz -P ./bibliotecas
 
