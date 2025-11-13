@@ -1,32 +1,32 @@
-# compilador a ser utilizado
-CC=gcc
+CFLAGS = -Wall -Wextra
+DEPS = -lraylib -lraygui
 
-# pasta com arquivos header
-INC=./include
-BUILD=./build
-SRC=./src
+CC = gcc
 
-SRCS=./src/save.c ./src/dialogo.c
-OBJS=./build/save.o ./build/dialogo.o
+INCLUDE = ./include 
 
-RAYLIB_INC=./bibliotecas/raylib-5.5_linux_amd64/include
-RAYLIB_LD=./bibliotecas/raylib-5.5_linux_amd64/lib/
+RL_LDD = $(PWD)/bibliotecas/raylib-5.5_linux_amd64/lib
+RG_LDD = $(PWD)/bibliotecas/raygui-4.0/src
 
-RAYGUI_INC=./bibliotecas/raygui-4.0/src
-RAYGUI_LD=$(RAYGUI_INC)
+RL_INC = ./bibliotecas/raylib-5.5_linux_amd64/include
+RG_INC = ./bibliotecas/raygui-4.0/src
 
-all: ./build/dialogo.o ./build/save.o ./build/logicus
+OBJS = save.o dialogo.o main.o
 
-# compila arquivos separadamente
-./build/dialogo.o: ./src/dialogo.c
-	gcc -c -I$(INC) $(SRC)/dialogo.c -o ./build/dialogo.o
+all: ./build/logicus
 
-./build/save.o: ./src/save.c
-	gcc -c -I$(INC) $(SRC)/save.c -o ./build/save.o
+./build/logicus: $(OBJS)
+	gcc $(CFLAGS) $(OBJS) -o ./build/logicus -L$(RL_LDD) -L$(RG_LDD) -Wl,-rpath=$(RL_LDD) -Wl,-rpath=$(RG_LDD) $(DEPS)
 
-# linkagem dos arquivos em um executavel
-./build/logicus: ./src/main.c
-	$(CC) ./src/main.c -o $(BUILD)/logicus $(OBJS) -I$(INC) -I$(RAYLIB_INC) -I$(RAYGUI_INC) -L$(RAYLIB_LD) -L$(RAYGUI_LD) -Wl,-rpath,$(RAYLIB_LD) -Wl,-rpath,$(RAYGUI_LD) -lraylib -lraygui
+main.o: ./src/main.c
+	$(CC) $(CFLAGS) -c ./src/main.c -I$(RL_INC) -I$(RG_INC) -I$(INCLUDE)
+
+save.o: ./src/save.c
+	$(CC) $(CFLAGS) -c ./src/save.c
+
+dialogo.o: ./src/dialogo.c
+	$(CC) $(CFLAGS) -c ./src/dialogo.c
 
 clean:
-	rm ./build/*
+	@rm *.o ./build/logicus
+	@echo "limpeza feita!"

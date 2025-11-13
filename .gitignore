@@ -1,2 +1,3 @@
 bibliotecas
 build
+*.o
