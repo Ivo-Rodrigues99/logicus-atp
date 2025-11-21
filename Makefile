@@ -1,13 +1,18 @@
 CFLAGS = -Wall
-DEPS = -lraylib -lm
+
+ifeq ($(OS),Windows_NT)
+    DEPS = -lraylib -lm -lopengl32 -lgdi32 -lwinmm
+else
+    DEPS = -lraylib -lm
+endif
 
 CC = gcc
 
 INCLUDE = ./include 
 
-RL_LDD = $(PWD)/bibliotecas/raylib-5.5_linux_amd64/lib
-RL_INC = ./bibliotecas/raylib-5.5_linux_amd64/include
-RG_INC = ./bibliotecas/raygui-4.0/src
+RL_LDD = $(PWD)/bibliotecas/raylib/src
+RL_INC = ./bibliotecas/raylib/src
+RG_INC = ./bibliotecas/raygui/src
 
 OBJS = recursos.o save.o dialogo.o main.o
 
