@@ -87,6 +87,7 @@ n[3] = 2;
 
 ## 6.0 Comentários
 - Sempre comente para o máximo de clareza, exceto se a instrução for totalmente auto descritiva.
+- Não fazer comentários pessoais, de nota individual ou que não sejam com propósito de documentação.
 ```c
 // comentário de uma única linha.
 
