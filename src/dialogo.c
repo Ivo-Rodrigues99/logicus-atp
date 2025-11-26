@@ -7,7 +7,11 @@
 #include "dialogo.h"
 
 // conta a quantidade de linhas do arquivo
-int contaLinhas (FILE *arquivo) {
+int contaLinhas (char *nomeArquivo) {
+    
+    // abre arquivo atribuido no parâmetro
+    FILE *arquivo = fopen(nomeArquivo, "r");
+    
     char c; // percorre caractere por caractere no arquivo
     int linhas = 0;      
     
@@ -19,16 +23,19 @@ int contaLinhas (FILE *arquivo) {
 	    }
     }
     
-    // reinicia a posição do ponteiro pro começo do arquivo
-    rewind(arquivo);
+    // fecha arquivo 
+    fclose(arquivo);
     
     // retorna o total de linhas
     return linhas;
 }
 
 // função que aloca os dialogos lidos do arquivo
-Dialogo *carregarDialogo (FILE *arquivo, int linhas, int *totalDialogos) {
-
+Dialogo *carregarDialogo (char *nomeArquivo, int linhas, int *totalDialogos) {
+    
+    // abre arquivo atribuido no parâmetro
+    FILE *arquivo = fopen(nomeArquivo, "r");
+    
     // ponteiro que receberá cada linha de dialogo na estruturai
     Dialogo *fala = (Dialogo *) calloc(linhas, sizeof(Dialogo));
     char aux[256]; // auxiliar para a separação do nome e texto      
@@ -57,7 +64,9 @@ Dialogo *carregarDialogo (FILE *arquivo, int linhas, int *totalDialogos) {
 		strcpy(fala[dialogoAtual].texto, &aux[auxI+1]);	
 		acm = 0; // acumulador zerado para próxima leitura de linha
 	}
-    fclose(arquivo); // fecha o arquivo de dialogos
+    
+    // fecha o arquivo de dialogos
+    fclose(arquivo); 
 
     // passa a quantidade de dialogos para fora da função
     *totalDialogos = dialogoAtual;
