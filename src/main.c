@@ -12,17 +12,12 @@
 // importacao de arquivos header de prototipacao e carregamento
 
 #include "recursos.h"
+#include "telas.h"
 #include "caixinhas.h"
 #include "save.h"
 
 // declaracao de constantes globais
 // ...
-typedef enum {
-    TELA_INICIAL = 0,
-    TELA_MENU,
-    TELA_JOGO,
-    TELA_MAPA
-} EstadoTela;
 
 // define tamanho da janela
 
@@ -32,18 +27,15 @@ typedef enum {
 // declaracao de variaveis globais
 // ...
 
-// prototipação de funções
-
-void mudarTela (EstadoTela *telaAtual, Imagens *imagens);
-// cada tela é representada por uma função
-EstadoTela telaInicial(EstadoTela **tela);
-EstadoTela telaMenu(EstadoTela **tela, Imagens **imagens);
-EstadoTela telaJogo(EstadoTela **tela);
-EstadoTela telaMapa(EstadoTela **tela);
+// vetor com a quantidade de slots de save acessiveis para o usuario
+SaveEstado saveSlots[3];
 
 int main(void) {
     // aloca estaticamente memoria para recursos de imagem
     Imagens imagens = {0};
+    
+    // funcao auxiliar de inicializacao dos saves
+    inicializarSistemaDeSave(saveSlots);
 
     // declara a tela inicial ao abrir o programa
     EstadoTela tela = TELA_INICIAL;
@@ -60,10 +52,13 @@ int main(void) {
 
         BeginDrawing();
             // limpa cor de fundo para proxima iteracao
-            ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
+            ClearBackground(GetColor(GuiGetStyle(DEFAULT, 20)));
 
             // através desta função acontecem todas as transições
-            mudarTela(&tela, &imagens);
+            if (mudarTela(&tela, &imagens, LARGURA, ALTURA)) {
+                break;
+            }
+            
 
         EndDrawing();
 
@@ -75,82 +70,4 @@ int main(void) {
     // finaliza janela
     CloseWindow();
     return 0;
-}
-
-//função que muda de tela ativamente
-void mudarTela (EstadoTela *telaAtual, Imagens *imagens){
-    // estrutura de controle das telas
-    switch(*telaAtual){
-        case TELA_INICIAL:
-            *telaAtual = telaInicial(&telaAtual);
-            break;
-        
-        case TELA_MENU:
-            *telaAtual = telaMenu(&telaAtual, &imagens);
-            break;
-        
-        case TELA_JOGO:
-            *telaAtual = telaJogo(&telaAtual);
-            break;
-
-        case TELA_MAPA:
-            *telaAtual = telaMapa(&telaAtual);
-            break;
-    }
-}
-
-EstadoTela telaInicial(EstadoTela **tela){
-    DrawText("TELA INICIAL - Aperte Enter para começar.", 100, 200, 20, BLACK);
-    if (IsKeyPressed(KEY_ENTER))
-    {
-        return TELA_MENU;
-    } else {
-        // se Enter não for apertado a tela permanece a mesma
-        return **tela;
-    }
-}
-
-EstadoTela telaMenu(EstadoTela **tela, Imagens **imagens){
-    // desenha splash arte do menu
-    DrawTexture((**imagens).interface[SPLASH_ARTE], 0, 0, WHITE);
-    
-    // desenha titulo
-    DrawTexture((**imagens).interface[TITULO_ARTE], (LARGURA / 2) - 180, ALTURA / 28, WHITE);
-    DrawText("TELA DE MENU - Aperte Enter para continuar", 100, 200, 20, WHITE);
-
-    if (IsKeyPressed(KEY_ENTER))
-    {
-        return TELA_JOGO;
-    } else {
-        // se Enter não for apertado a tela permanece a mesma
-        return **tela;
-    }
-}
-
-EstadoTela telaJogo(EstadoTela **tela) {
-    // roda o desafio da tela de jogo
-    RodarDesafioCaixinhas();
-
-    // desenha instrução na tela
-    DrawText("TELA DO JOGO - Aperte 'M' para abrir o mapa", 100, 200, 20, BLACK);
-
-    // verifica se vai pro mapa
-    if (IsKeyPressed(KEY_M)) {
-        return TELA_MAPA;
-    }
-
-    // continua na mesma tela
-    return **tela;
-}
-
-
-EstadoTela telaMapa(EstadoTela **tela){
-    DrawText("MAPA MPAAP MAPA", 100, 200, 20, BLACK);
-    if (IsKeyPressed(KEY_M) || IsKeyPressed(KEY_TAB))
-    {
-        return TELA_JOGO;
-    } else {
-        // se 'M' ou Tab não forem apertados a tela permanece a mesma
-        return **tela;
-    }
 }
