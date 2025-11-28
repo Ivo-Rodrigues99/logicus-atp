@@ -24,7 +24,7 @@ void carregarRecursos(Imagens *imagens) {
     imagens->cenario[TORRE] = carregarImagem(TORRE, "./imagens/torre.jpeg");
 
     // imagens de personagem
-    imagens->personagem[MAGA_COSTAS] = carregarImagem(MAGA_COSTAS, "./imagens/maga_costas.png");
+    imagens->personagem[MAGA_COSTAS] = carregarImagem(MAGA_COSTAS, "./imagens/maga_costas_teste.png");
 }
 
 void descarregarRecursos(Imagens *imagens) {

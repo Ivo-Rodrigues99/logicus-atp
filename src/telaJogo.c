@@ -55,10 +55,16 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
             float height; // altura do retângulo
         } Rectangle;
     */
-
-    DrawTexture((*imagens).interface[IMAGEM_FUNDO], 0, 0, WHITE);
+    /* TESTANDO REDIMENSIONAMENTO DO SPRITE DE PERSONAGENS
+    Rectangle src = { 0, 0, 100, 100};
+    Rectangle dst = { 0, 0, 100, 100};
+    Vector2 origin = {100, 100 };
+    DrawTexturePro((*imagens).personagem[MAGA_COSTAS], src, dst, origin, PURPLE);
+    */
+    DrawTexture((*imagens).interface[SPLASH_ARTE], 0, 0, WHITE);
     Rectangle fundoDeTela = {0, ALTURA * 0.04, 800, 480};
 
+    DrawTexture((*imagens).personagem[MAGA_COSTAS], 90, 20, WHITE);
     // calcula área de clique baseada no tamanho do texto
     int larguraPular = MeasureText("Pular", 12);
     int larguraSalvar = MeasureText("Salvamentos", 12);
@@ -76,7 +82,7 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
     DrawRectangleRounded((Rectangle){LARGURA * 0.01, ALTURA * 0.65, LARGURA * 0.98, ALTURA * 0.33}, 0.3f, 10, (Color){0, 0, 0, (255)/1.5});
 
     // CAIXA DO NOME 
-    DrawRectangleRounded((Rectangle){ LARGURA * 0.055, (ALTURA * 0.6) + 1, LARGURA * 0.2, (ALTURA * 0.05) + 12}, 0.3f, 12, BLACK);
+    DrawRectangleRounded((Rectangle){ LARGURA * 0.055, (ALTURA * 0.6) + 1, (LARGURA * 0.3) + 27, (ALTURA * 0.05) + 12}, 0.3f, 12, BLACK);
 
     // PULAR
     // detecta o mouse dentro da área do texto
