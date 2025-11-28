@@ -88,8 +88,10 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
 
     // se (clicar na tela) OU apertar Enter OU apertar Espaçamento
     if ((CheckCollisionPointRec(GetMousePosition(), fundoDeTela) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) || IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
-        printf("Clique na tela/Enter/Espaçamento\n");
+        printf("Abrindo tela de input...\n");
+        return TELA_INPUT;
     }
+    
     
     return *tela;
 }
