@@ -3,10 +3,10 @@
 #include <string.h>
 #include "raylib.h"
 #include "raygui.h"
+#include "dialogo.h"
 #include "recursos.h"
 // telas.h obrigatoriamente há de estar após recursos.h, senão dá erro ao não saber o que é uma Texture2D
 #include "telas.h"
-
 // FOLHA DE ESTILO ---------------------------------------------------------------------------------------
 
     Color
@@ -20,9 +20,11 @@
 
 
 // VARIAVEIS DE CONTROLE ---------------------------------------------------------------------------------
-
+    
+    int dialogoAtual = 0;
     // maximo de caracteres por linha com tamanho de fonte 20 é de 68 caracteres
-    char strCaixaDialogo[] = "texto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \n";
+    /*char strCaixaDialogo[] = "texto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \n";*/
+    
     // usar laço for() para realizar a quebra de linhas
     
 // FIM DAS VARIAVEIS DE CONTROLE -------------------------------------------------------------------------
@@ -37,7 +39,13 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
             float height; // altura do retângulo
         } Rectangle;
     */
+    char *nomeArquivo = "./dialogos/dialogos.txt";
+    int totalDialogos = 0;
+    bool esperaInput = true; 
 
+    int linhas = contaLinhas(nomeArquivo);
+    Dialogo *dialogos = carregarDialogo(nomeArquivo, linhas, &totalDialogos);
+    
     DrawTexture((*imagens).interface[IMAGEM_FUNDO], 0, 0, WHITE);
     Rectangle fundoDeTela = {0, ALTURA * 0.04, 800, 480};
 
@@ -66,8 +74,15 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
 
     // CAIXA DE DIALOGO
     DrawRectangleRounded((Rectangle){LARGURA * 0.01, ALTURA * 0.65, LARGURA * 0.98, ALTURA * 0.33}, 0.3f, 10, (Color){0, 0, 0, (255)/1.5});
+
+    // CAIXA DO NOME 
+    //DrawText(dialogos[dialogoAtual].nome, LARGURA * 0.06, ALTURA *0.6, 20, WHITE);
+    Rectangle nomeRect = { LARGURA * 0.055, ALTURA * 0.6, LARGURA * 0.5, ALTURA * 0.1 };
+    DrawRectangleRec(nomeRect, PURPLE);
     // DIALOGO INTERNO
-    DrawText(strCaixaDialogo, LARGURA * 0.04, ALTURA * 0.7, 20, WHITE);
+    
+
+    //DrawText(dialogos[dialogoAtual].nome, LARGURA * 0.04, ALTURA * 0.7, 20, WHITE);
     //GuiTextBox((Rectangle){LARGURA * 0.01, ALTURA * 0.55, LARGURA * 0.98, ALTURA * 0.43},"lorem ipsum dolor sit amet", 10, false);
 
     // HISTORICO
@@ -147,8 +162,21 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
 
     // se (clicar na tela) OU apertar Enter OU apertar Espaçamento
     if ((CheckCollisionPointRec(GetMousePosition(), fundoDeTela) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) || IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
-        printf("Clique na tela/Enter/Espaçamento\n");
+        if (dialogoAtual < totalDialogos - 1) {
+            dialogoAtual++;
+            printf("%d\nClique na tela/Enter/Espaçamento\n", dialogoAtual);
+        } else {
+            esperaInput = false;
+        }
     }
     
+    
+    DrawText(dialogos[dialogoAtual].nome, LARGURA * 0.06, ALTURA *0.6, 20, WHITE);
+    DrawText(dialogos[dialogoAtual].texto, LARGURA * 0.04, ALTURA * 0.7, 20, WHITE);
+
+     if (!esperaInput) {
+        printf("fim da leitura do arquivo");
+     }
+
     return *tela;
 }
