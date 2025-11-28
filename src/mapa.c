@@ -41,35 +41,35 @@ EstadoTela telaMapa(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA,
     DrawRectangleRec(salas[0].area, Fade(salas[0].cor, 0.4f)); // Fundo colorido suave
     if (GuiButton(salas[0].area, salas[0].nome)) {
         *idSalaAtual = salas[0].idProximaSala; // Atualiza o ID
-        proximaTela = TELA_JOGO;               // Muda a tela
+        return TELA_SALA;               // Muda a tela
     }
 
     // --- Botão 1: Main ---
     DrawRectangleRec(salas[1].area, Fade(salas[1].cor, 0.4f));
     if (GuiButton(salas[1].area, salas[1].nome)) {
         *idSalaAtual = salas[1].idProximaSala;
-        proximaTela = TELA_JOGO;
+        return TELA_SALA;
     }
 
     // --- Botão 2: Variaveis ---
     DrawRectangleRec(salas[2].area, Fade(salas[2].cor, 0.4f));
     if (GuiButton(salas[2].area, salas[2].nome)) {
         *idSalaAtual = salas[2].idProximaSala;
-        proximaTela = TELA_JOGO;
+        return TELA_SALA;
     }
 
     // --- Botão 3: Output ---
     DrawRectangleRec(salas[3].area, Fade(salas[3].cor, 0.4f));
     if (GuiButton(salas[3].area, salas[3].nome)) {
         *idSalaAtual = salas[3].idProximaSala;
-        proximaTela = TELA_JOGO;
+        return TELA_SALA;
     }
 
     // --- Botão 4: Input ---
     DrawRectangleRec(salas[4].area, Fade(salas[4].cor, 0.4f));
     if (GuiButton(salas[4].area, salas[4].nome)) {
         *idSalaAtual = salas[4].idProximaSala;
-        proximaTela = TELA_JOGO;
+        return TELA_SALA;
     }
 
     // --- 5. BOTÃO VOLTAR ---

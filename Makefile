@@ -14,7 +14,7 @@ RL_LDD = $(PWD)/bibliotecas/raylib/src
 RL_INC = ./bibliotecas/raylib/src
 RG_INC = ./bibliotecas/raygui/src
 
-OBJS = caixinhas.o recursos.o save.o dialogo.o main.o mudarTela.o telaInicial.o telaMenu.o telaJogo.o telaInput.o salas.o
+OBJS = telaSala.o caixinhas.o recursos.o save.o dialogo.o main.o mudarTela.o telaInicial.o telaMenu.o telaJogo.o telaInput.o salas.o
 
 CPPFLAGS = -I$(RL_INC) -I$(RG_INC) -I$(INCLUDE)
 
@@ -53,9 +53,9 @@ telaInput.o: ./src/telaInput.c
 salas.o: ./src/salas.c
 	$(CC) $(CFLAGS) -c ./src/salas.c -I$(INCLUDE) -I$(RL_INC) -I$(RG_INC)
 
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c ./src/recursos.c
+telaSala.o: ./src/telaSala.c
+	$(CC) $(CFLAGS) -c ./src/telaSala.c -I$(INCLUDE) -I$(RL_INC)
 
-# regra nova pro teu módulo
 caixinhas.o: ./src/caixinhas.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c ./src/caixinhas.c
 

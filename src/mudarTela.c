@@ -6,6 +6,7 @@
 // telas.h obrigatoriamente há de estar após recursos.h, senão dá erro ao não saber o que é uma Texture2D
 #include "telas.h"
 #include "save.h"
+#include "telaSala.h"
 #include "caixinhas.h"
 
 // função que muda de tela ativamente
@@ -37,6 +38,8 @@ bool mudarTela(EstadoTela *telaAtual, Imagens *imagens, int LARGURA, int ALTURA,
             *telaAtual = telaSlotsSave();
             break;
 
+         case TELA_SALA:
+            *telaAtual = telaSala(imagens, LARGURA, ALTURA, idSalaAtual);
          case TELA_CAIXINHAS:
             *telaAtual = RodarDesafioCaixinhas();
             break;
