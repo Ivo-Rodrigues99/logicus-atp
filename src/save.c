@@ -22,7 +22,7 @@ typedef struct {
     bool ativo;
 } SaveEstado;
 
-int slotAtivo = 0;
+int slotAtivo = -1;
 
 SaveEstado saveSlots[3];
 SaveEstado *saveEmUso = &saveSlots[0];
