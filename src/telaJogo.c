@@ -5,6 +5,7 @@
 #include "raygui.h"
 #include "dialogo.h"
 #include "recursos.h"
+#include "salas.h"
 // telas.h obrigatoriamente há de estar após recursos.h, senão dá erro ao não saber o que é uma Texture2D
 #include "telas.h"
 // FOLHA DE ESTILO ---------------------------------------------------------------------------------------
@@ -24,7 +25,7 @@
     
 // FIM DAS VARIAVEIS DE CONTROLE -------------------------------------------------------------------------
 
-EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA) {
+EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA, int *idSalaAtual) {
     // VARIÁVEIS USADAS NA LEITURA DE ARQUIVO DOS DIÁLOGOS -----------------------------------------------
     
     /* 
@@ -54,8 +55,46 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
             float height; // altura do retângulo
         } Rectangle;
     */
+    
+    ClearBackground(RAYWHITE);
 
-    DrawTexture((*imagens).interface[IMAGEM_FUNDO], 0, 0, WHITE);
+	// Switch de chamada de ID para mudança de sala -------------------------------------------------------
+	
+	switch (*idSalaAtual) {
+        case ID_SALA_BIBLIOTECAS:
+            DrawRectangle(0, 0, LARGURA, ALTURA, DARKGREEN); // Fundo Verde
+            DrawText("BIBLIOTECAS", 20, 50, 40, WHITE);
+            break;
+            
+        case ID_SALA_MAIN:
+            DrawRectangle(0, 0, LARGURA, ALTURA, YELLOW); // Fundo Amarelo
+            DrawText("MAIN( )", 20, 50, 40, WHITE);
+            break;
+            
+        case ID_SALA_VARIAVEIS:
+            DrawRectangle(0, 0, LARGURA, ALTURA, ORANGE); // Fundo Laranja
+            DrawText("SALA DAS VARIAVEIS", 20, 50, 40, WHITE);
+            break;
+            
+        case ID_SALA_PRINT:
+            DrawRectangle(0, 0, LARGURA, ALTURA, MAROON); // Fundo Vermelho
+            DrawText("PRINTF", 20, 50, 40, WHITE);
+            break;
+            
+        case ID_SALA_SCAN:
+            DrawRectangle(0, 0, LARGURA, ALTURA, MAROON); // Fundo Vermelho
+            DrawText("SCANF", 20, 50, 40, WHITE);
+            break;
+
+        default:
+            // Caso seja ID_SALA_NULA ou erro, desenha a imagem padrão antiga
+            DrawTexture((*imagens).interface[IMAGEM_FUNDO], 0, 0, WHITE);
+            DrawText("SALA PADRÃO (Sem ID)", 20, 50, 20, WHITE);
+            break;
+    }
+    
+    // Fim do switch de chamada de ID -------------------------------------------------------------------
+    
     Rectangle fundoDeTela = {0, ALTURA * 0.04, 800, 480};
 
     // calcula área de clique baseada no tamanho do texto
@@ -131,6 +170,13 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
     // se não houver mais interação, confirma o fim da leitura do arquivo
     if (!esperaInput) {
         printf("fim da leitura do arquivo");
+    }
+    
+    // Abrir o mapa
+    
+    if (IsKeyPressed(KEY_M)) {
+        printf("Indo para o Mapa...\n"); // Debug para ver no terminal
+        return TELA_MAPA; // <--- ISSO É O QUE FAZ A TROCA DE TELA
     }
     
      return *tela;

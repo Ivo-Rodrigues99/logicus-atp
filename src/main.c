@@ -16,26 +16,9 @@
 #include "caixinhas.h"
 #include "save.h"
 #include "dialogo.h"
+#include "salas.h"
 // declaracao de constantes globais
 // ...
-
-//Identificadores das salas
-typedef enum {
-	ID_SALA_NULA = 0,
-	ID_SALA_BIBLIOTECAS,
-	ID_SALA_MAIN,
-	ID_SALA_VARIAVEIS,
-	ID_SALA_PRINT,
-	ID_SALA_SCAN
-} IdSala;
-
-//Struct para representar uma sala no mapa
-typedef struct {
-	Rectangle area;			//Área clicável do mapa (eixos, largura, altura)
-	IdSala idProximaSala;	//Qual ID de sala vai ser carregado
-	const char *nome;		//Nome da sala que vai aparecer na tela
-	Color cor;				//Cor da sala no mapa
-} SalaMapa;
 
 // define tamanho da janela
 
@@ -69,8 +52,8 @@ int main(void) {
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
     
     // carrega recursos de imagem do jogo
-        carregarRecursos(&imagens);
-
+    carregarRecursos(&imagens);
+	
     // inicia game loop para desenhar na janela
     while (!WindowShouldClose()) {
 
@@ -79,7 +62,7 @@ int main(void) {
             ClearBackground(GetColor(GuiGetStyle(DEFAULT, 20)));
 
             // através desta função acontecem todas as transições
-            if (mudarTela(&tela, &imagens, LARGURA, ALTURA)) {
+            if (mudarTela(&tela, &imagens, LARGURA, ALTURA, &idSalaAtual)) {
                 break;
             }
 

@@ -7,7 +7,7 @@
 
 EstadoTela telaInicial(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
 {
-    DrawText("TELA INICIAL - Aperte Enter para começar.", 100, 200, 20, WHITE);
+    DrawText("TELA INICIAL - Aperte Enter para começar.", 150, 200, 20, WHITE);
     if (IsKeyPressed(KEY_ENTER)) {
         return TELA_MENU;
     } else {
