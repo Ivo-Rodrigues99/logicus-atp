@@ -3,10 +3,10 @@
 #include <string.h>
 #include "raylib.h"
 #include "raygui.h"
+#include "dialogo.h"
 #include "recursos.h"
 // telas.h obrigatoriamente há de estar após recursos.h, senão dá erro ao não saber o que é uma Texture2D
 #include "telas.h"
-
 // FOLHA DE ESTILO ---------------------------------------------------------------------------------------
 
     Color
@@ -17,15 +17,35 @@
 
 
 // VARIAVEIS DE CONTROLE ---------------------------------------------------------------------------------
-
-    // maximo de caracteres por linha com tamanho de fonte 20 é de 68 caracteres
-    char strCaixaDialogo[] = "texto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \ntexto texto texto texto texto texto texto texto texto texto texto \n";
+     
+    int dialogoAtual = 0; // inicia os indices de dialogos a serem lidos
+    
     // usar laço for() para realizar a quebra de linhas
     
 // FIM DAS VARIAVEIS DE CONTROLE -------------------------------------------------------------------------
 
-EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
-{
+EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA) {
+    // VARIÁVEIS USADAS NA LEITURA DE ARQUIVO DOS DIÁLOGOS -----------------------------------------------
+    
+    /* 
+       declaração feita dentro do escopo da função para serem usadas 
+       pelas outras funções referentes ao sistema de diálogos
+       para evitar o erro de "initializer element is not constant" 
+    */
+
+    // caminho do arquivo do diálogo
+    char *nomeArquivo = "./dialogos/dialogos.txt";
+    int totalDialogos = 0;      // quantidade de dialogos que será definida em carregarDialogo
+    bool esperaInput = true;    // verifica se ainda há inputs a serem recebidos na troca de dialogos
+    
+    // quantidade de linhas no arquivo
+    int linhas = contaLinhas(nomeArquivo);
+    
+    // carrega os diálogos
+    Dialogo *dialogos = carregarDialogo(nomeArquivo, linhas, &totalDialogos);
+    
+    // FIM DAS VARIÁVEIS DO DIÁLOGO ----------------------------------------------------------------------
+
     /* levando em consideração que:
         typedef struct Rectangle {
             float x;      // posição horizontal (eixo X)
@@ -53,8 +73,9 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
 
     // CAIXA DE DIALOGO
     DrawRectangleRounded((Rectangle){LARGURA * 0.01, ALTURA * 0.65, LARGURA * 0.98, ALTURA * 0.33}, 0.3f, 10, (Color){0, 0, 0, (255)/1.5});
-    // DIALOGO INTERNO
-    DrawText(strCaixaDialogo, LARGURA * 0.04, ALTURA * 0.7, 20, WHITE);
+
+    // CAIXA DO NOME 
+    DrawRectangleRounded((Rectangle){ LARGURA * 0.055, (ALTURA * 0.6) + 1, LARGURA * 0.2, (ALTURA * 0.05) + 12}, 0.3f, 12, BLACK);
 
     // PULAR
     // detecta o mouse dentro da área do texto
@@ -65,6 +86,8 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
         
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             printf("Pular\n");
+            printf("Abrindo tela de input...\n");
+            return TELA_INPUT;
         }
 
     } else {
@@ -88,10 +111,27 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
 
     // se (clicar na tela) OU apertar Enter OU apertar Espaçamento
     if ((CheckCollisionPointRec(GetMousePosition(), fundoDeTela) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) || IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
-        printf("Abrindo tela de input...\n");
-        return TELA_INPUT;
+        // verifica o indicie do dialogo lido
+        if (dialogoAtual < totalDialogos - 1) {
+            // incrementa ao receber uma interação
+            dialogoAtual++;
+            printf("%d\nClique na tela/Enter/Espaçamento\n", dialogoAtual);
+        } else {
+            // verifica o fim da leitura do arquivo
+            esperaInput = false;
+        }
+    }
+
+    // TEXTO DO NOME
+    DrawText(dialogos[dialogoAtual].nome, (LARGURA * 0.06) + 5, (ALTURA * 0.6) + 8, 24, WHITE);
+    
+    // TEXTO DO DIÁLOGO
+    DrawText(dialogos[dialogoAtual].texto, LARGURA * 0.04, ALTURA * 0.7, 20, WHITE);
+    
+    // se não houver mais interação, confirma o fim da leitura do arquivo
+    if (!esperaInput) {
+        printf("fim da leitura do arquivo");
     }
     
-    
-    return *tela;
-}
+     return *tela;
+} 
