@@ -20,11 +20,11 @@ void carregarRecursos(Imagens *imagens) {
     imagens->interface[IMAGEM_FUNDO] = carregarImagem(IMAGEM_FUNDO, "./imagens/teste.jpeg");
 
     // imagens de cenario
-    imagens->cenarios[DUNGEON] = carregarImagem(DUNGEON, "./imagens/dungeon.jpeg");
-    imagens->cenarios[TORRE] = carregarImagem(TORRE, "./imagens/torre.jpeg");
+    imagens->cenario[DUNGEON] = carregarImagem(DUNGEON, "./imagens/dungeon.jpeg");
+    imagens->cenario[TORRE] = carregarImagem(TORRE, "./imagens/torre.jpeg");
 
     // imagens de personagem
-    imagens->personagens = carregarImagem(MAGA_COSTAS, "./imagens/maga_costas.png");
+    imagens->personagem[MAGA_COSTAS] = carregarImagem(MAGA_COSTAS, "./imagens/maga_costas.png");
 }
 
 void descarregarRecursos(Imagens *imagens) {
