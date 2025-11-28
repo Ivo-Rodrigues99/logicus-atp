@@ -105,7 +105,7 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
         
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             saveEmUso->dialogoAtual = saveEmUso->dialogoAtual;
-            salvarEstadoDeJogo(saveEmUso);
+            salvarEstadoDeJogo(saveEmUso, slotAtivo);
         }
 
     } else {
