@@ -1,6 +1,8 @@
 #ifndef TELAS_H
 #define TELAS_H
 
+#include "recursos.h"
+
 typedef enum {
     TELA_INICIAL = 0,
     TELA_MENU,
@@ -12,12 +14,12 @@ typedef enum {
 } EstadoTela;
 
 // prototipação de funções
-bool mudarTela (EstadoTela *telaAtual, Imagens *imagens, int LARGURA, int ALTURA);
+bool mudarTela (EstadoTela *telaAtual, Imagens *imagens, int LARGURA, int ALTURA, int *idSalaAtual);
 // cada tela é representada por uma função
 EstadoTela telaInicial(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA);
 EstadoTela telaMenu(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA);
-EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA);
-EstadoTela telaMapa(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA);
+EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA, int *idSalaAtual);
+EstadoTela telaMapa(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA, int *idSalaAtual);
 EstadoTela telaInput(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA);
 
 #endif

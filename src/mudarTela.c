@@ -8,7 +8,7 @@
 #include "save.h"
 
 // função que muda de tela ativamente
-bool mudarTela(EstadoTela *telaAtual, Imagens *imagens, int LARGURA, int ALTURA)
+bool mudarTela(EstadoTela *telaAtual, Imagens *imagens, int LARGURA, int ALTURA, int *idSalaAtual)
 {
     // estrutura de controle das telas
     switch (*telaAtual) {
@@ -21,11 +21,11 @@ bool mudarTela(EstadoTela *telaAtual, Imagens *imagens, int LARGURA, int ALTURA)
             break;
 
         case TELA_JOGO:
-            *telaAtual = telaJogo(telaAtual, imagens, LARGURA, ALTURA);
+            *telaAtual = telaJogo(telaAtual, imagens, LARGURA, ALTURA, idSalaAtual);
             break;
 
         case TELA_MAPA:
-            *telaAtual = telaMapa(telaAtual, imagens, LARGURA, ALTURA);
+            *telaAtual = telaMapa(telaAtual, imagens, LARGURA, ALTURA, idSalaAtual);
             break;
 
         case TELA_INPUT:

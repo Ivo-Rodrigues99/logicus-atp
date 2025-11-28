@@ -16,6 +16,7 @@
 #include "caixinhas.h"
 #include "save.h"
 #include "dialogo.h"
+#include "salas.h"
 // declaracao de constantes globais
 // ...
 
@@ -38,6 +39,9 @@ int main(void) {
     
     // declara a tela inicial ao abrir o programa
     EstadoTela tela = TELA_MENU;
+  
+    //Variavel para controlar em qual sala o jogador está
+    int idSalaAtual = ID_SALA_NULA;
 
     // inicializa janela da biblioteca RayGUI
     InitWindow(LARGURA, ALTURA, "Logicus;");
@@ -47,8 +51,8 @@ int main(void) {
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
     
     // carrega recursos de imagem do jogo
-        carregarRecursos(&imagens);
-
+    carregarRecursos(&imagens);
+	
     // inicia game loop para desenhar na janela
     while (!WindowShouldClose()) {
 
@@ -57,7 +61,7 @@ int main(void) {
             ClearBackground(GetColor(GuiGetStyle(DEFAULT, 20)));
 
             // através desta função acontecem todas as transições
-            if (mudarTela(&tela, &imagens, LARGURA, ALTURA)) {
+            if (mudarTela(&tela, &imagens, LARGURA, ALTURA, &idSalaAtual)) {
                 break;
             }
 
