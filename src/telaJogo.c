@@ -1,6 +1,6 @@
 // se alterar, favor manter a ordem das includes de bibliotecas
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 #include "raylib.h"
 #include "raygui.h"
 #include "dialogo.h"
@@ -17,7 +17,7 @@
 
 
 // VARIAVEIS DE CONTROLE ---------------------------------------------------------------------------------
-     
+    
     int dialogoAtual = 0; // inicia os indices de dialogos a serem lidos
     
     // usar laço for() para realizar a quebra de linhas
@@ -25,6 +25,7 @@
 // FIM DAS VARIAVEIS DE CONTROLE -------------------------------------------------------------------------
 
 EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA) {
+    
     // VARIÁVEIS USADAS NA LEITURA DE ARQUIVO DOS DIÁLOGOS -----------------------------------------------
     
     /* 
@@ -116,6 +117,12 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
             // incrementa ao receber uma interação
             dialogoAtual++;
             printf("%d\nClique na tela/Enter/Espaçamento\n", dialogoAtual);
+
+            if (dialogoAtual > 1) { // se o siálogo for maior que 1
+                // troca a imagem de fundo atual por essa do endereço
+                imagens->interface[IMAGEM_FUNDO] = carregarImagem(IMAGEM_FUNDO, "./imagens/dungeon.jpeg");
+            }
+
         } else {
             // verifica o fim da leitura do arquivo
             esperaInput = false;
@@ -133,5 +140,5 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
         printf("fim da leitura do arquivo");
     }
     
-     return *tela;
+    return *tela;
 } 
