@@ -81,7 +81,7 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
     DrawText("Salvar", areaSalvamentos.x, areaSalvamentos.y, 12, corStrSalvamentos);
 
 
-    if (dialogoAtual == 5) { DrawTexture((*imagens).personagem[MAGA_COSTAS], 90, 20, WHITE); }
+    if (saveEmUso->dialogoAtual == 5) { DrawTexture((*imagens).personagem[MAGA_COSTAS], 90, 20, WHITE); }
 
     // CAIXA DE DIALOGO
     DrawRectangleRounded((Rectangle){LARGURA * 0.01, ALTURA * 0.65, LARGURA * 0.98, ALTURA * 0.33}, 0.3f, 10, (Color){0, 0, 0, (255)/1.5});
@@ -127,13 +127,13 @@ EstadoTela telaJogo(EstadoTela *tela, Imagens *imagens, int LARGURA, int ALTURA)
         // verifica o indicie do dialogo lido
         if (saveEmUso->dialogoAtual < totalDialogos - 1) {
             // incrementa ao receber uma interação
-            dialogoAtual++;
-            printf("%d\nClique na tela/Enter/Espaçamento\n", dialogoAtual);
+            saveEmUso->dialogoAtual++;
+            printf("%d\nClique na tela/Enter/Espaçamento\n", saveEmUso->dialogoAtual);
 
-            if (dialogoAtual == 4) { // se o siálogo for maior que 1
+            if (saveEmUso->dialogoAtual == 4) { // se o siálogo for maior que 1
                 // troca a imagem de fundo atual por essa do endereço
                 imagens->interface[IMAGEM_FUNDO] = carregarImagem(IMAGEM_FUNDO, "./imagens/dungeon.jpeg");
-            } else if (dialogoAtual == 6){
+            } else if (saveEmUso->dialogoAtual == 6){
                 imagens->interface[IMAGEM_FUNDO] = carregarImagem(IMAGEM_FUNDO, "./imagens/arte_splash.png");
             }
 
